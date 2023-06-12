@@ -1,24 +1,26 @@
 const express = require('express');
 
-const { validation } = require('../../middlewares');
-const { productSchema } = require('../../schemas');
+const { validation, ctrlWrapper } = require('../../middlewares');
+const { contactSchema } = require('../../schemas');
 
 const { contacts: ctrl } = require('../../controllers');
-
-const validateMiddleware = validation(productSchema);
 
 // const contactsAPI = require('../../models/contacts');
 
 const router = express.Router();
 
-router.get('/', ctrl.getAll);
+router.get('/', ctrlWrapper(ctrl.getAll));
 
-router.get('/:contactId', ctrl.getById);
+router.get('/:contactId', ctrlWrapper(ctrl.getById));
 
-router.post('/', validateMiddleware, ctrl.add);
+router.post('/', validation(contactSchema), ctrlWrapper(ctrl.add));
 
-router.put('/:contactId', validateMiddleware, ctrl.updateById);
+router.put(
+  '/:contactId',
+  validation(contactSchema),
+  ctrlWrapper(ctrl.updateById)
+);
 
-router.delete('/:contactId', ctrl.removeById);
+router.delete('/:contactId', ctrlWrapper(ctrl.removeById));
 
 module.exports = router;
