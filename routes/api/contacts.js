@@ -1,6 +1,11 @@
 const express = require('express');
 
+const { validation } = require('../../middlewares');
+const { productSchema } = require('../../schemas');
+
 const { contacts: ctrl } = require('../../controllers');
+
+const validateMiddleware = validation(productSchema);
 
 // const contactsAPI = require('../../models/contacts');
 
@@ -10,9 +15,9 @@ router.get('/', ctrl.getAll);
 
 router.get('/:contactId', ctrl.getById);
 
-router.post('/', ctrl.add);
+router.post('/', validateMiddleware, ctrl.add);
 
-router.put('/:contactId', ctrl.updateById);
+router.put('/:contactId', validateMiddleware, ctrl.updateById);
 
 router.delete('/:contactId', ctrl.removeById);
 
