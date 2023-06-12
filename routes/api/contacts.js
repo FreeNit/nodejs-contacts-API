@@ -5,8 +5,6 @@ const { contactSchema } = require('../../schemas');
 
 const { contacts: ctrl } = require('../../controllers');
 
-// const contactsAPI = require('../../models/contacts');
-
 const router = express.Router();
 
 router.get('/', ctrlWrapper(ctrl.getAll));
