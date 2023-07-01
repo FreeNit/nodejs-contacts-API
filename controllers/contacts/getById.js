@@ -1,9 +1,9 @@
 const { NotFound } = require('http-errors');
-const contactsAPI = require('../../models/contacts');
+const Contact = require('../../models/contact');
 
 const getById = async (req, res, next) => {
   const contactId = req.params.contactId;
-  const contact = await contactsAPI.getContactById(contactId);
+  const contact = await Contact.findOne({ _id: contactId });
 
   if (!contact) {
     throw new NotFound(`Product with id=${contactId} not found`);

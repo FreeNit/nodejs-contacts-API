@@ -1,7 +1,7 @@
-const contactsAPI = require('../../models/contacts');
+const Contact = require('../../models/contact');
 
 const add = async (req, res, next) => {
-  const newContact = await contactsAPI.addContact(req.body);
+  const newContact = await Contact.create(req.body);
   res.status(201).json({
     status: 'Contact successfully created',
     code: 201,

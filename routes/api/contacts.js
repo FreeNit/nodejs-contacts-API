@@ -13,12 +13,12 @@ router.get('/:contactId', ctrlWrapper(ctrl.getById));
 
 router.post('/', validation(contactSchema), ctrlWrapper(ctrl.add));
 
-router.put(
-  '/:contactId',
-  validation(contactSchema),
-  ctrlWrapper(ctrl.updateById)
-);
+// router.put(
+//   '/:contactId',
+//   validation(contactSchema),
+//   ctrlWrapper(ctrl.updateById)
+// );
 
-router.delete('/:contactId', ctrlWrapper(ctrl.removeById));
+// router.delete('/:contactId', ctrlWrapper(ctrl.removeById));
 
 module.exports = router;
