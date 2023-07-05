@@ -22,6 +22,10 @@ const userSchema = new Schema(
       minlength: 6,
       required: [true, 'Password is mandatory'],
     },
+    token: {
+      type: String,
+      default: '',
+    },
   },
   { versionKey: false, timestamps: true }
 );
