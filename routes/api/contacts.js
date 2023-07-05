@@ -9,6 +9,7 @@ const {
 const { schemas } = require('../../models/contact');
 
 const { contacts: ctrl } = require('../../controllers');
+const auth = require('../../controllers/auth');
 
 const router = express.Router();
 
