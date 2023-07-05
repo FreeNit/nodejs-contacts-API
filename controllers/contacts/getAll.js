@@ -2,7 +2,13 @@ const { Contact } = require('../../models/contact');
 
 const getAll = async (req, res, next) => {
   const { _id: owner } = req.user;
-  const contacts = await Contact.find({ owner }, '-createAt -updateAt');
+  // Get Request Params for pagination
+  const { page = 1, limit = 10 } = req.query;
+  const skip = (page - 1) * limit;
+  const contacts = await Contact.find({ owner }, '-createAt -updateAt', {
+    skip,
+    limit,
+  }).populate('owner', 'name email');
 
   res.json({
     status: 'success',
