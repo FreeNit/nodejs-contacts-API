@@ -1,8 +1,8 @@
 const { Contact } = require('../../models/contact');
 
 const getAll = async (req, res, next) => {
-  const contacts = await Contact.find();
-  console.log('hello');
+  const { _id: owner } = req.user;
+  const contacts = await Contact.find({ owner }, '-createAt -updateAt');
 
   res.json({
     status: 'success',
