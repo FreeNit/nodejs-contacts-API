@@ -36,7 +36,7 @@ userSchema.post('save', handleMongooseError);
 const registrationSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
   password: Joi.string().min(6).required(),
-  // subscription: Joi.string().valid('starter', 'pro', 'business'),
+  subscription: Joi.string().valid('starter', 'pro', 'business'),
 });
 
 const loginSchema = Joi.object({
@@ -44,10 +44,15 @@ const loginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
+const updateSubscriptionSchema = Joi.object({
+  subscription: Joi.string().valid('starter', 'pro', 'business'),
+});
+
 // Validation during request from the frontend part
 const schemas = {
   registrationSchema,
   loginSchema,
+  updateSubscriptionSchema,
 };
 
 // Working with mongoDB - backend part
