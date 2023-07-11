@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const gravatar = require('gravatar');
+const Jimp = require('jimp');
 
 const path = require('path');
 const fs = require('fs/promises');
@@ -80,15 +81,30 @@ const updateAvatar = async (req, res) => {
   const { path: tempUpload, originalname } = req.file;
   const filename = `${_id}_${originalname}`;
   const resultUpload = path.join(avatarsDir, filename);
-  await fs.rename(tempUpload, resultUpload);
 
-  const avatarURL = path.join('avatars', filename);
+  // autocrop > aligning > quality > rewrite an image
+  const image = await Jimp.read(tempUpload);
+  await image
+    .autocrop()
+    .cover(250, 250, Jimp.HORIZONTAL_ALIGN_LEFT | Jimp.VERTICAL_ALIGN_TOP)
+    .quality(75)
+    .writeAsync(tempUpload);
 
-  await User.findByIdAndUpdate(_id, { avatarURL });
+  try {
+    // replace a file
+    await fs.rename(tempUpload, resultUpload);
 
-  res.json({
-    avatarURL,
-  });
+    const avatarURL = path.join('avatars', filename);
+
+    await User.findByIdAndUpdate(_id, { avatarURL });
+    res.json({
+      avatarURL,
+    });
+  } catch (error) {
+    // remove file from temp folder
+    await fs.unlink(tempUpload);
+    console.log(error.message);
+  }
 };
 
 module.exports = {
