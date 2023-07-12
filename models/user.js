@@ -56,6 +56,10 @@ const loginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
+const emailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required(),
+});
+
 const updateSubscriptionSchema = Joi.object({
   subscription: Joi.string().valid('starter', 'pro', 'business'),
 });
@@ -65,6 +69,7 @@ const schemas = {
   registrationSchema,
   loginSchema,
   updateSubscriptionSchema,
+  emailSchema,
 };
 
 // Working with mongoDB - backend part

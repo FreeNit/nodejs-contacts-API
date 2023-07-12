@@ -22,6 +22,12 @@ router.post(
 // email verification
 router.get('/verify/:verificationCode', ctrl.verifyEmail);
 
+router.post(
+  '/verify',
+  validateBody(schemas.emailSchema),
+  ctrl.resendVerifyEmail
+);
+
 // signin
 router.post('/login', validateBody(schemas.loginSchema), ctrl.login);
 
